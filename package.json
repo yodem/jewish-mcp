@@ -8,9 +8,29 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
+    "@types/node": "^24.0.12",
+    "@types/node-fetch": "^2.6.12",
+    "@types/pdf-parse": "^1.1.5",
+    "better-sqlite3": "^12.2.0",
+    "dotenv": "^17.1.0",
+    "node-fetch": "^3.3.2",
+    "pdf-parse": "^1.1.1",
     "playwright": "^1.53.2",
-    "playwright-stealth": "^0.0.1"
+    "playwright-stealth": "^0.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yodem/jewish-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yodem/jewish-mcp/issues"
+  },
+  "homepage": "https://github.com/yodem/jewish-mcp#readme",
+  "description": "",
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13"
   }
 }

@@ -1,9 +1,29 @@
-/after_step3.png
-/cookies.json
-/downloaded.pdf
-/downloaded_1.pdf
-/downloaded_2.pdf
-/downloaded_3.pdf
-/node_modules
-/step3.5_input_error.png
-/test_open_pdf.js
+# Node
+node_modules/
+
+# TypeScript
+*.tsbuildinfo
+dist/
+build/
+
+# Project output
+summaries/
+downloads/
+
+# Environment
+.env
+.env.*
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+.idea/
+.vscode/

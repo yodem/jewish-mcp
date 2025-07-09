@@ -1,0 +1,15 @@
+{
+  "preferredJournals": [
+    "Jewish Quarterly Review",
+    "AJS Review"
+  ],
+  "maxArticlesPerJournal": 5,
+  "summarization": {
+    "provider": "gemini-free"
+  },
+  "email": {
+    "recipients": [
+      "yotamfromm123@gmail.com"
+    ]
+  }
+} 
