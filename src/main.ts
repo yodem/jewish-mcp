@@ -4,7 +4,8 @@ import { loginStep } from './playwright/steps/login';
 import { browseJournalsStep } from './playwright/steps/browseJournals';
 import { selectJournalStep } from './playwright/steps/selectJournal';
 import { downloadArticlesStep } from './playwright/steps/downloadArticles';
-import { geminiSummarize } from './llm/geminiSummarize';
+import { summarizePdf } from './llm/summarizePdf';
+import { getAllArticles } from './db/schema';
 import fs from 'fs';
 import path from 'path';
 
@@ -85,16 +86,21 @@ async function main() {
     if (!selected) continue;
     // Download articles for this journal
     await downloadArticlesStep(context, selected.href, selected.name);
-    // For demo, summarize the first downloaded article (mock: just pick one from downloads folder)
-    const downloadsDir = path.resolve(__dirname, '../downloads');
-    const files = fs.readdirSync(downloadsDir).filter(f => f.endsWith('.pdf'));
-    if (files.length > 0) {
-      const filePath = path.join(downloadsDir, files[0]);
-      // In real use, extract text from PDF, then summarize
-      const fakeText = `Contents of ${filePath}`;
-      const summary = await geminiSummarize(fakeText);
-      console.log(`Summary for ${filePath}:\n${summary}`);
-    }
+  }
+
+  // After all downloads, summarize all articles and save summaries by journal, article title, and author
+  const allArticles = getAllArticles();
+  for (const article of allArticles) {
+    const summary = await summarizePdf(article.filePath);
+    // Sanitize names for filesystem
+    const sanitize = (s: string) => s.replace(/[^a-zA-Z0-9\-_ ]/g, '').replace(/\s+/g, '_');
+    const journalFolder = path.join('summaries', sanitize(article.journal || 'Unknown_Journal'));
+    if (!fs.existsSync(journalFolder)) fs.mkdirSync(journalFolder, { recursive: true });
+    const authorPart = article.authors ? `_${sanitize(article.authors)}` : '';
+    const fileName = `${sanitize(article.title || 'Untitled')}${authorPart}.txt`;
+    const summaryPath = path.join(journalFolder, fileName);
+    fs.writeFileSync(summaryPath, summary, 'utf8');
+    console.log(`Summary for ${article.filePath} written to ${summaryPath}`);
   }
 
   await browser.close();

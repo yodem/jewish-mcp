@@ -8,6 +8,10 @@ export interface Article {
   journal: string;
   filePath: string;
   downloadDate: string;
+  year?: string;
+  volume?: string;
+  issue?: string;
+  journalIssue?: string;
 }
 
 const dbPath = path.resolve(__dirname, '../../downloads/articles.db');
@@ -21,17 +25,36 @@ export function initDb() {
       authors TEXT,
       journal TEXT,
       filePath TEXT NOT NULL,
-      downloadDate TEXT NOT NULL
+      downloadDate TEXT NOT NULL,
+      year TEXT,
+      volume TEXT,
+      issue TEXT,
+      journalIssue TEXT
     )
   `);
 }
 
 export function insertArticle(article: Article) {
   const stmt = db.prepare(`
-    INSERT INTO articles (title, authors, journal, filePath, downloadDate)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO articles (title, authors, journal, filePath, downloadDate, year, volume, issue, journalIssue)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
-  stmt.run(article.title, article.authors, article.journal, article.filePath, article.downloadDate);
+  stmt.run(
+    article.title,
+    article.authors,
+    article.journal,
+    article.filePath,
+    article.downloadDate,
+    article.year,
+    article.volume,
+    article.issue,
+    article.journalIssue
+  );
+}
+
+export function getAllArticles(): Article[] {
+  const stmt = db.prepare('SELECT * FROM articles');
+  return stmt.all() as Article[];
 }
 
 export default db; 

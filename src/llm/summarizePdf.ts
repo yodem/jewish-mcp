@@ -67,7 +67,7 @@ async function getArticleTitleFromText(text: string): Promise<string> {
   return "summary";
 }
 
-export async function summarizePdf(pdfPath: string) {
+export async function summarizePdf(pdfPath: string): Promise<string> {
   console.log(`[LOG] Extracting text from PDF: ${pdfPath}`);
   const text = await extractTextFromPDF(pdfPath);
   const articleTitle = await getArticleTitleFromText(text);
@@ -96,12 +96,5 @@ export async function summarizePdf(pdfPath: string) {
   console.log(`\n[LOG] --- Final Review Summary ---`);
   console.log(finalSummary);
 
-  if (!fs.existsSync("summaries")) {
-    fs.mkdirSync("summaries");
-  }
-  const summaryPath = path.join("summaries", `${articleTitle}.txt`);
-  fs.writeFileSync(summaryPath, finalSummary);
-  console.log(`[LOG] Summary written to ${summaryPath}`);
-}
-
-summarizePdf("downloads/downloaded_1752061347298_26.pdf"); 
+  return finalSummary;
+} 
