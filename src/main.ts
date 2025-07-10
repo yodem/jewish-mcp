@@ -1,13 +1,13 @@
 import { chromium } from 'playwright';
-import { initDb } from './db/schema';
+import { initDb, insertSummary, getSummaryByFilePath, insertCombinedSummary, getAllArticles } from './db/schema';
 import { loginStep } from './playwright/steps/login';
 import { browseJournalsStep } from './playwright/steps/browseJournals';
 import { selectJournalStep } from './playwright/steps/selectJournal';
 import { downloadArticlesStep } from './playwright/steps/downloadArticles';
 import { summarizePdf } from './llm/summarizePdf';
-import { getAllArticles } from './db/schema';
 import fs from 'fs';
 import path from 'path';
+import { projectMuseOptions } from './playwright/siteOptions';
 
 async function main() {
   // Load user preferences
@@ -74,6 +74,9 @@ async function main() {
     console.warn('cookies.json not found, proceeding without cookies.');
   }
 
+  // Select site (for now, only Project Muse)
+  const site = projectMuseOptions;
+
   // Step 1: Login (placeholder)
   await loginStep(page);
 
@@ -90,8 +93,14 @@ async function main() {
 
   // After all downloads, summarize all articles and save summaries by journal, article title, and author
   const allArticles = getAllArticles();
+  const allSummaries: { title: string; summary: string; markdown: string; journal: string; authors: string }[] = [];
+  
   for (const article of allArticles) {
-    const summary = await summarizePdf(article.filePath);
+    if (getSummaryByFilePath(article.filePath)) {
+      console.log(`Summary already exists for: ${article.filePath}`);
+      continue;
+    }
+    const summaryResult = await summarizePdf(article.filePath);
     // Sanitize names for filesystem
     const sanitize = (s: string) => s.replace(/[^a-zA-Z0-9\-_ ]/g, '').replace(/\s+/g, '_');
     const journalFolder = path.join('summaries', sanitize(article.journal || 'Unknown_Journal'));
@@ -99,8 +108,38 @@ async function main() {
     const authorPart = article.authors ? `_${sanitize(article.authors)}` : '';
     const fileName = `${sanitize(article.title || 'Untitled')}${authorPart}.txt`;
     const summaryPath = path.join(journalFolder, fileName);
-    fs.writeFileSync(summaryPath, summary, 'utf8');
+    fs.writeFileSync(summaryPath, summaryResult.text, 'utf8');
+    insertSummary({ 
+      filePath: article.filePath, 
+      summary: summaryResult.text, 
+      markdown: summaryResult.markdown,
+      createdAt: new Date().toISOString() 
+    });
     console.log(`Summary for ${article.filePath} written to ${summaryPath}`);
+    
+    // Collect summary for final combined summary
+    allSummaries.push({
+      title: article.title || 'Untitled',
+      summary: summaryResult.text,
+      markdown: summaryResult.markdown,
+      journal: article.journal || 'Unknown Journal',
+      authors: article.authors || 'Unknown Authors'
+    });
+  }
+
+  // Save final combined summary to DB
+  if (allSummaries.length > 0) {
+    const currentDate = new Date().toLocaleDateString();
+    const combinedContent = allSummaries.map(s => 
+      `## ${s.title}\n\n**Journal:** ${s.journal}\n**Authors:** ${s.authors}\n\n${s.markdown}\n\n---\n\n`
+    ).join('\n');
+    
+    insertCombinedSummary({
+      date: currentDate,
+      content: combinedContent,
+      createdAt: new Date().toISOString()
+    });
+    console.log(`Saved combined summary to DB with ${allSummaries.length} articles`);
   }
 
   await browser.close();

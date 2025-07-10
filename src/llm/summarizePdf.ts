@@ -67,7 +67,7 @@ async function getArticleTitleFromText(text: string): Promise<string> {
   return "summary";
 }
 
-export async function summarizePdf(pdfPath: string): Promise<string> {
+export async function summarizePdf(pdfPath: string): Promise<{ text: string; markdown: string }> {
   console.log(`[LOG] Extracting text from PDF: ${pdfPath}`);
   const text = await extractTextFromPDF(pdfPath);
   const articleTitle = await getArticleTitleFromText(text);
@@ -87,14 +87,39 @@ export async function summarizePdf(pdfPath: string): Promise<string> {
     summaries.push(summary);
   }
 
-  // Create a single-paragraph review summary of all chunks
+  // Create a single-paragraph review summary of all chunks in both text and markdown
   const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-  const reviewPrompt = `Given the following chunk summaries, write a single-paragraph review that synthesizes the main ideas and sources from the entire document.\n\nChunk Summaries:\n${summaries.join("\n\n")}\n\nReview (one paragraph):`;
+  const reviewPrompt = `Given the following chunk summaries, write a single-paragraph review that synthesizes the main ideas and sources from the entire document. Provide the response in both plain text and markdown format.
+
+Chunk Summaries:
+${summaries.join("\n\n")}
+
+Please provide:
+1. A plain text version (one paragraph)
+2. A markdown version with proper formatting, headers, and structure
+
+Format your response as:
+TEXT:
+[plain text version]
+
+MARKDOWN:
+[markdown version]`;
+
   console.log(`\n[LOG] Creating final review summary of all chunks...`);
   const reviewResult = await model.generateContent(reviewPrompt);
-  const finalSummary = reviewResult.response.text();
-  console.log(`\n[LOG] --- Final Review Summary ---`);
-  console.log(finalSummary);
+  const fullResponse = reviewResult.response.text();
+  
+  // Parse the response to extract text and markdown
+  const textMatch = fullResponse.match(/TEXT:\s*([\s\S]*?)(?=MARKDOWN:|$)/);
+  const markdownMatch = fullResponse.match(/MARKDOWN:\s*([\s\S]*?)$/);
+  
+  const textSummary = textMatch ? textMatch[1].trim() : fullResponse;
+  const markdownSummary = markdownMatch ? markdownMatch[1].trim() : fullResponse;
+  
+  console.log(`\n[LOG] --- Final Review Summary (Text) ---`);
+  console.log(textSummary);
+  console.log(`\n[LOG] --- Final Review Summary (Markdown) ---`);
+  console.log(markdownSummary);
 
-  return finalSummary;
+  return { text: textSummary, markdown: markdownSummary };
 } 

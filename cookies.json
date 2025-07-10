@@ -1,7 +1,7 @@
 [
     {
         "domain": ".jhu.edu",
-        "expirationDate": 1786642989.341244,
+        "expirationDate": 1786736986.172066,
         "hostOnly": false,
         "httpOnly": false,
         "name": "_ga",
@@ -15,7 +15,7 @@
     },
     {
         "domain": ".jhu.edu",
-        "expirationDate": 1786642989.341084,
+        "expirationDate": 1786737004.476873,
         "hostOnly": false,
         "httpOnly": false,
         "name": "_ga_9E7VT47G3J",
@@ -24,26 +24,12 @@
         "secure": false,
         "session": false,
         "storeId": "0",
-        "value": "GS2.1.s1752082967$o6$g1$t1752082989$j38$l0$h1329550324",
+        "value": "GS2.1.s1752176749$o8$g1$t1752177004$j42$l0$h2098842788",
         "id": 2
     },
     {
         "domain": ".jhu.edu",
-        "expirationDate": 1752083027,
-        "hostOnly": false,
-        "httpOnly": false,
-        "name": "_gat_gtag_UA_58347753_2",
-        "path": "/",
-        "sameSite": "Lax",
-        "secure": false,
-        "session": false,
-        "storeId": "0",
-        "value": "1",
-        "id": 3
-    },
-    {
-        "domain": ".jhu.edu",
-        "expirationDate": 1752169389,
+        "expirationDate": 1752263386,
         "hostOnly": false,
         "httpOnly": false,
         "name": "_gid",
@@ -52,8 +38,8 @@
         "secure": false,
         "session": false,
         "storeId": "0",
-        "value": "GA1.2.1820901002.1752010905",
-        "id": 4
+        "value": "GA1.2.1636356262.1752176750",
+        "id": 3
     },
     {
         "domain": "muse.jhu.edu",
@@ -65,86 +51,21 @@
         "secure": true,
         "session": true,
         "storeId": "0",
-        "value": "_2b15230266249704c4ab58f1c799be96",
+        "value": "_f81d0f5081f6de69620bac996787e75d",
+        "id": 4
+    },
+    {
+        "domain": "muse.jhu.edu",
+        "hostOnly": true,
+        "httpOnly": true,
+        "name": "_shibstate_1752176758_bcdf",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": true,
+        "session": true,
+        "storeId": "0",
+        "value": "https%3A%2F%2Fmuse.jhu.edu%2Fshibboleth",
         "id": 5
-    },
-    {
-        "domain": "muse.jhu.edu",
-        "hostOnly": true,
-        "httpOnly": true,
-        "name": "_shibstate_1752060147_736d",
-        "path": "/",
-        "sameSite": "Lax",
-        "secure": true,
-        "session": true,
-        "storeId": "0",
-        "value": "https%3A%2F%2Fmuse.jhu.edu%2Fshibboleth",
-        "id": 6
-    },
-    {
-        "domain": "muse.jhu.edu",
-        "hostOnly": true,
-        "httpOnly": true,
-        "name": "_shibstate_1752060149_63e5",
-        "path": "/",
-        "sameSite": "Lax",
-        "secure": true,
-        "session": true,
-        "storeId": "0",
-        "value": "https%3A%2F%2Fmuse.jhu.edu%2Fshibboleth",
-        "id": 7
-    },
-    {
-        "domain": "muse.jhu.edu",
-        "hostOnly": true,
-        "httpOnly": true,
-        "name": "_shibstate_1752060151_1827",
-        "path": "/",
-        "sameSite": "Lax",
-        "secure": true,
-        "session": true,
-        "storeId": "0",
-        "value": "https%3A%2F%2Fmuse.jhu.edu%2Fshibboleth",
-        "id": 8
-    },
-    {
-        "domain": "muse.jhu.edu",
-        "hostOnly": true,
-        "httpOnly": true,
-        "name": "_shibstate_1752082974_c94e",
-        "path": "/",
-        "sameSite": "Lax",
-        "secure": true,
-        "session": true,
-        "storeId": "0",
-        "value": "https%3A%2F%2Fmuse.jhu.edu%2Fshibboleth",
-        "id": 9
-    },
-    {
-        "domain": "muse.jhu.edu",
-        "hostOnly": true,
-        "httpOnly": true,
-        "name": "_shibstate_1752082976_2dd0",
-        "path": "/",
-        "sameSite": "Lax",
-        "secure": true,
-        "session": true,
-        "storeId": "0",
-        "value": "%2Fshibboleth",
-        "id": 10
-    },
-    {
-        "domain": "muse.jhu.edu",
-        "hostOnly": true,
-        "httpOnly": true,
-        "name": "_shibstate_1752082986_0a82",
-        "path": "/",
-        "sameSite": "Lax",
-        "secure": true,
-        "session": true,
-        "storeId": "0",
-        "value": "https%3A%2F%2Fmuse.jhu.edu%2Fshibboleth",
-        "id": 11
     },
     {
         "domain": "muse.jhu.edu",
@@ -157,7 +78,7 @@
         "session": true,
         "storeId": "0",
         "value": "%2F",
-        "id": 12
+        "id": 6
     },
     {
         "domain": "muse.jhu.edu",
@@ -169,8 +90,8 @@
         "secure": false,
         "session": true,
         "storeId": "0",
-        "value": "89.139.17.223.1752060140659108",
-        "id": 13
+        "value": "89.139.17.223.1752176748859743",
+        "id": 7
     },
     {
         "domain": "muse.jhu.edu",
@@ -183,7 +104,7 @@
         "session": true,
         "storeId": "0",
         "value": "%2Fauthenticate%3Faction%3Dshibboleth%26iid%3D17074",
-        "id": 14
+        "id": 8
     },
     {
         "domain": "muse.jhu.edu",
@@ -196,6 +117,6 @@
         "session": true,
         "storeId": "0",
         "value": "https%3A%2F%2Fidp.mail.biu.ac.il%2Fopenathens",
-        "id": 15
+        "id": 9
     }
     ]

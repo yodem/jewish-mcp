@@ -1,0 +1,18 @@
+{
+  "name": "jewish-mcp-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts"
+  },
+  "dependencies": {
+    "elysia": "^0.8.0",
+    "@elysiajs/cors": "^0.8.0",
+    "better-sqlite3": "^9.4.0",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  }
+} 
